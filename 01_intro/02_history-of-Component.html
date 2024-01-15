@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- react를 구현하기 위한 lib이다. -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+</head>
+<body>
+    <!-- emmet 문법: html을 축약해서 표현할 수 있음
+    https://inpa.tistory.com/entry/HTML-%F0%9F%8E%A8-Emmet-%EB%AC%B8%EB%B2%95-%EC%A0%95%EB%A6%AC
+    -->
+    <!-- div#root : 하면 하단처럼 나옴
+    <div id="root"></div> -->
+    <!-- div.greeting : 하면 하단처럼 -->
+    <!-- <div class="greeting"></div> -->
+    <!-- div*4 -->
+    <!-- <div></div>
+    <div></div>
+    <div></div>
+    <div></div> -->
+
+    <div id="root"></div>
+    <script>
+        /*
+        엘리먼트: 요소, 노드, 어트리뷰트 노드, 텍스트를 노드로 만들어지는 가상 dom개념
+        컴포넌트: 엘리먼트를 반환하는 개념을 가진 화면의 구성 단위
+
+
+// 클래스형 컴포넌트
+// EX6(2015)에 클래스 문법이 도입되면서 리액트에도 리액트 컴포넌트를 만드는 새로운 방법이 도입되었다. */
+
+//         class HelloWorld extends React.Component {
+//             render() {
+//                 return React.createElement(
+//                     "h1",
+//                     { className: 'greeting' },
+//                     "hello world"
+//                 );
+//             }
+//         }
+//      <!-- 과거엔 이렇게 썼었다만 알고 넘어가자  -->
+
+
+// 함수형 컴포넌트 
+function HelloWorld(){
+    return React.createElement('h1', {className: 'greeting', id:"test"},"hello World");
+}
+/*
+현재에도 여전히 class구문을 사용해 리액트 컴포넌트를 만들 수 있지만
+함수 기반의 컴포넌트를 생성하는 방법이 리엑트 l6이후 추가되었다.
+현재는 함수 기반의 컴포넌트 생성 방법이 주를 이루고 있다.
+
+이제부터는 함수 기반의 컴포넌트 생성을 주로 사용하지만
+생명주기 메서드와 훅스 설명 시 클래스 문법이 다시 나올 것이다.*/
+
+    ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(HelloWorld));
+ </script>
+<!-- Changed ( ) to { } in the class definition. *주의좀해라* -->
+<!-- Removed the extra $ character. -->
+<!-- Added the closing tag for the </html> tag. -->
+
+
+
+</body>
+</html>
