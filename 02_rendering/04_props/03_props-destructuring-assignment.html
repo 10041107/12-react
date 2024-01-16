@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+</head>
+<body>
+    <div id="root"></div>
+
+
+    <!-- <script type="text/babel">
+        function PropsPrinter(props) {
+            return (<>
+                <h1>{props.name} </h1>
+                <h3>{props.children}</h3>
+            </>);
+        }
+
+        // props =/= props.name =/= props.children (각각 js에서 기능하는 동작이 다름)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        ReactDOM.createRoot(document.getElementById('root')).render(
+            <PropsPrinter name="홍길동">텍스트 노드</PropsPrinter>
+        );
+    </script> -->
+
+
+<!-- 구조분해할당 -->
+
+<script type="text/babel">
+    function PropsPrinter({ name, children }) { // 괄호 틀렸음
+        return (
+            <>
+                <h1>{name}</h1>
+                <h3>{children}</h3>
+            </>
+        );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(
+        <PropsPrinter name="홍길동">텍스트 노드</PropsPrinter>
+    );
+</script>
+    
+    <!-- 혹은  -->
+  <!-- <script type="text/babel">
+    //     function PropsPrinter({name, children}) {
+    //         return (<>
+    //             <h1>{name} </h1>
+    //             <h3>{children}</h3>
+    //         </>);
+    //     }
+
+    //     ReactDOM.createRoot(document.getElementById('root')).render(
+    //         <PropsPrinter name="홍길동">텍스트 노드</PropsPrinter>
+    //     );
+    // </script> -->
+
+
+
+
+    <!-- 이건 내가짠거 -->
+    <!-- <script type="text/babel">
+
+        const name = "홍길동";
+            const render = (
+                <>
+                <h1> {name} </h1>
+                <h3>텍스트 노드</h3>
+                </>
+            );
+            
+        ReactDOM.createRoot(document.getElementById('root')).render(render);
+        console.log(render);
+
+    </script> -->
+
+
+</body>
+</html>
