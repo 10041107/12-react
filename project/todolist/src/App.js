@@ -1,93 +1,81 @@
+import React, { useState } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState } from 'react';
-import Button from 'react-bootstrap/Button'; 
 
 
-function App() {
+// list 를 출력하기 위한 컴포넌트
+const Item = ({todo,setTodoList,todoList}) => {
+  // check 되었을 경우 취소선 처리
+  const [check, setCheck] = useState(false);
+  const style ={
+    textDecoration : check ? 'line-through' : "none"
+  }
 
-      //번호 삽입
-      const [nextId, setNextId] = useState(4);
+  const changeBox = ()=>{
+    setCheck(!check);
+  } 
 
-      const [names,setNames] = useState([
-        { id: 1, name: '🌥️ 아침 6시 기상', checked: true},
-        { id: 2, name: '🍙 점심 약 먹기', checked: true},
-        { id: 3, name: '🐹 햄스터 밥 주기', checked: true},
-
-      ]);
-
-      const onCheckedElement = (checked, item) => {
-        if (checked) {
-          setCheckedList([...checkedList, item]);
-        } else if (!checked) {
-          setCheckedList(checkedList.filter(el => el !== item));
-        }
-      };
-
-      const onCheckedRemove = item => {
-        setCheckedList(checkedList.filter(el => el !== item));
-      };
-
-       
-      const onChangeHandler = e => setImputText(e.target.value);
-
+  const removeTodo = () => {
+   const result = todoList.filter(item => item !== todo);
+   setTodoList(result);
     
-      //문장 입력
-      const [inputText, setImputText] = useState("");
+  }
 
-
-    // checked: true 변경 함수
-    const onToggle = useCallback(id => {
-      setTodos(todos.map(todo => 
-        todo.id === id ? {...todo, checked: true} : todo
-      ))
-    }, [todos]);
-
-      //문장, 번호 병합
-      const onClickHAndler = () => {
-        const changeNames = names.concat({
-          is: nextId,
-          name: inputText,
-          checked: false
-        });
-        setNextId(nextId+1);
-        setNames(changeNames);
-        setImputText("");
-      }
-
-     //삭제 함수
-     const onRemove = id => {
-     const changeNames = names.filter(name => name.in !== id);
-     setNames(changeNames);
-     }
-
-     const nameList = names.map(
-      name => (
-        <li key={name.id} onDoubleClick={() => onRemove(name.id)}>
-          {name.name}
-        </li>
-      )
-     )
-
-
-      return (
-        <div className="App">
-        <div className = "all">
-          <h1>📝 To Do List</h1>
-          <br/>
-        <div className="addlist">
-          <ul>
-            {nameList}
-            </ul>
-            <br/>
-            <Button onClick={onRemove} as="input" type="button" value="삭제하기"/>
-
-            <input value={inputText} onChange ={onChangeHandler}/>
-        <Button onClick={onClickHAndler} as="input" type="button" value="추가하기"/>
-        </div>
-        </div>
+  return(
+    <div>
+        <input type='checkBox' onChange={changeBox}/>
+        <label style={style}>{todo}</label>
+        <button onClick={removeTodo}>삭제</button>
     </div>
   );
 }
+
+// todolist 를 화면에 출력하기 위한 컨테이너
+const Container = ({todoList,setTodoList}) => {
+  return(
+      todoList.map((current,index)=>{      
+        return <Item todo={current} key={index} setTodoList={setTodoList} todoList={todoList}/>
+      })
+  );
+}
+
+const InputContainer = ({todoList,setTodo}) =>{
+  const[input, setInput] = useState("");
+  const addList = () =>{
+    setTodo([...todoList, input])
+  }
+  
+  const changeInput = (e) => {
+    setInput(e.target.value);
+  }
+  return(
+    <>
+    <input type='text' value={input} onChange={changeInput}/>
+    <button onClick={addList}>추가</button>
+    </>
+  )
+}
+
+
+
+//---------------------------------------------------------------------------------------------------------
+// 애플리케이션의 전체 화면
+function App() {
+  const [todoList,setTodoList] = useState(["안녕", "안녕2"]);
+  return (
+    <>
+      <div>
+        <h1>todolist</h1>
+        <Container todoList={todoList} setTodoList={setTodoList}/>
+        <InputContainer setTodo={setTodoList} todoList={todoList}/>
+      </div>
+    </>
+  );
+}
+
+
+
+
+
 
 export default App;
