@@ -1,70 +1,102 @@
-# Getting Started with Create React App
+# hooks
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## useEffect
+<p>
+didMount && didUpdate와 동일한 라이프 사이클을 갖는 훅스이다. </br>
+해당 컴포넌트는 렌더링 이후 시점에 호출되어 보통 리소스를 할당하거나 </br>
+외부 api를 호출할 때 많이 사용한다. </br>
+</p>
 
-## Available Scripts
+## useReducer
+<p>
+Usereducer란 컴포넌트 외부에서 공통 작업을 수행하는 hooks.
+첫 번째 매개변수로 action을 받는다.
 
-In the project directory, you can run:
+[표현식]
+//외부에 컴포넌트의 상태를 관리하는 함수를 선언
+function reducer-(state,action){
 
-### `npm start`
+}
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+[사용]
+const MyComponent = () => {
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+}
 
-### `npm test`
+리듀서는 할당된 state의 value를 컴포넌트의 state에 넣어주고 dispatch에 전달받은 외부 함수에 선언된 state를 reducer의 첫번째 매개변수로 전달하여 action의 상태에 따라
+</p>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## usememo
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+메모이제이션된 값을 반환하는 hooks.
+결과값을 재활용할때 유용함
+게산 비용이 많이 드는 작업을 피할 수 있음
+의존성 배열의 값이 변경되었을때만 메모이제이션된 값을 다시 계산함.
+------
+useMemo가 필요한 이유는 functional component의 특성상 state가 변경되면 업데이트가 되면서
+오랜 연산이 수행되어야 하는 경우 계속 반복적으로 연산을 처리하게 된다.
+이로 인해 어플리케이션이 렌더링이 좀 늦어지는 현상을 막고자 감지의 대상을 정해 해당 대상이 변경되지 않을 경우 최초 mount시점에
+연산을 했던 값을 저장하여, 다음 렌더링 시에 재활용하게 된다. 이를 통해 어플리케이션의 렌더링 속도를 더 효율적으로 관리할 수 있게 된다.
+[표현식]
+//상태 변화에 따라 수행 내용이 달라지는 경우 의존성 배열에 상태를 추가한다.
+//만약 최초 마운트 시점에만 필요한 경우 의존성 배열에 상태를 추가하지 않는다.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## useCallback
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+컴포넌트가 렌더링이 될 때마다 변수는 다시 초기화되기 때문에 새로 만들어진 함수 객체를 다시 할당받는다.
+만약 이 calculate 함수를 useCallback 훅으로 감싸서
+메모이제이션을 해주면 컴포넌트가 다시 렌더링이 되더라도 계산기 함수가 초기화되는 것을 막을 수 있다.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+useCallback 훅은 메모이제이션된 콜백 함수를 생성하는 데 사용
+자식 컴포넌트에 props로 전달되는 함수가 불필요하게 재생성되는 것을 방지
+성능 최적화에 활용
+-----
+의존성 배열에 값이 변하지 않는 경우 마운트 시점의 함수 내부 상태를 스냅샷하여
+useMemo와 같이 메모이제이션을 통해 해당 시점의 함수를 재사용할때 사용한다.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+[표현식]
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+## useref (=use refrence)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+렌더링 간에 변경 가능한 값을 유지함.
+주로 dom요소에 직접 접근할 때 사용됨.
+useRef로 관리하는 값은 값이 변해도 화면이 렌더링되지 않음
+.current속성을 통해 해당 참조에 접근할 수 있음.
+------
+dom요소는 코드를 해성하고 난 이후에 렌더링이 이루어지게 되며 이때 해당 코드가 이미 컴파일 된 시점으로 해당 엘리먼트를 지시할 수 없는 상태가 되는데
+이를 엘리먼트의 ref속성에 useref hooks를 이용하여 dom을 조작할 수 있다.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+[표현식]
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+## useContext
+컴포넌트 트리 안에서 데이터를 공유할때 사용됨.
+context를 사용하여 prop drilling없이 컴포넌트에 데이터를 제공할 수 있음.
+(prop drilling: 여러 컴포넌트를 통한 props 전달)
+-----
+컴포넌트 트리 안에서 전역적으로 데이터를 공유할 수 있도록 고안된 방법이다.
+useContext는 자식 컴포넌트들이 props를 내려받을때 컴포넌트 트리가 복잡해 질수록
+상태를 관리하는게 어려워지기 때문에 context객체로 연관된 컴포넌트를 묶어주어 자식 컴포넌트들이 
+해당 컨텍스트를 구독하여 props를 할당받지 않고도 값을 참조할 수 있도록 하는 훅스이다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+이를 통해 어플리케이션의 유지보수성을 증가시킬 수 있다.
+그러나 리액트는 컴포넌트를 재사용할 수 있는 장점을 가지고 있는데, contect를 잘못 사용하면 이러한 장점을 잃어버릴 수 있다.
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## constomhooks
+사용자 정의 훅.
+컴포넌트 로직을 지정해두고 재사용 가능한 함수로 만들때 사용됨.
+use로 시작해야 함.
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<p>
+</p>
